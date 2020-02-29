@@ -121,6 +121,6 @@ public class TapeImpl implements Tape {
 
   @Override
   public String toString() {
-    return "Tape [" + CharSymbolUtils.stringFromList(rightString.plusAll(leftString)) + "]";
+    return "Tape [" + CharSymbolUtils.symbolListToString(rightString.plusAll(leftString)) + "]";
   }
 }

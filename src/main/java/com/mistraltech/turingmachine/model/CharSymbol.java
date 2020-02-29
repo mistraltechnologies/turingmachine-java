@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * An implementation of Symbol using a single character. The blank symbol is represented by the carat character ('^').
+ * CharSymbols cannot be constructed directly. Use one of the static factory methods to construct and retrieve
+ * CharSymbol instances.
+ */
 public class CharSymbol implements Symbol {
 
   public final static CharSymbol BLANK;
@@ -34,15 +39,15 @@ public class CharSymbol implements Symbol {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object other) {
+    if (this == other) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (other == null || getClass() != other.getClass()) {
       return false;
     }
 
-    CharSymbol that = (CharSymbol) o;
+    CharSymbol that = (CharSymbol) other;
 
     return value == that.value;
   }
@@ -59,10 +64,10 @@ public class CharSymbol implements Symbol {
 
 
   @Override
-  public int compareTo(Symbol o) {
-    checkArgument(o != null, "Cannot compare to null");
-    checkArgument(o instanceof CharSymbol, "Cannot compare with type %s", o.getClass().toString());
+  public int compareTo(Symbol other) {
+    checkArgument(other != null, "Cannot compare to null");
+    checkArgument(other instanceof CharSymbol, "Cannot compare with type %s", other.getClass().toString());
 
-    return value - ((CharSymbol) o).value;
+    return value - ((CharSymbol) other).value;
   }
 }

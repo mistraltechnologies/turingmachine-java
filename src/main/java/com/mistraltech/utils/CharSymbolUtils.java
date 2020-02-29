@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 public class CharSymbolUtils {
 
-  public static String stringFromList(List<Symbol> symbols) {
+  public static String symbolListToString(List<Symbol> symbols) {
     return symbols.stream()
         .map(Object::toString)
         .collect(Collectors.joining(""));
   }
 
-  public static List<Symbol> listFromString(String symbols) {
+  public static List<Symbol> stringToSymbolList(String symbols) {
     return symbols
         .chars()
         .mapToObj(c -> CharSymbol.getSymbol((char) c))

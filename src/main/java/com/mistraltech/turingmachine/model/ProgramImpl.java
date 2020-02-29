@@ -48,15 +48,15 @@ public final class ProgramImpl implements Program {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object other) {
+    if (this == other) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (other == null || getClass() != other.getClass()) {
       return false;
     }
 
-    ProgramImpl program = (ProgramImpl) o;
+    ProgramImpl program = (ProgramImpl) other;
 
     return actions.equals(program.actions);
   }
@@ -78,8 +78,8 @@ public final class ProgramImpl implements Program {
 
     @Override
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass") // Don't need the full set of checks here
-    public boolean equals(Object o) {
-      ActionKey actionKey = (ActionKey) o;
+    public boolean equals(Object other) {
+      ActionKey actionKey = (ActionKey) other;
       return state.equals(actionKey.state) && symbol.equals(actionKey.symbol);
     }
 

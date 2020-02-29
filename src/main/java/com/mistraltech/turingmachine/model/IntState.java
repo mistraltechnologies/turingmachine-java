@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * A State implementation with states represented by Integers.
+ * IntState cannot be constructed directly. Use one of the static factory methods to construct and retrieve
+ * IntState instances.
+ */
 public final class IntState implements State {
 
   private static final Map<Integer, IntState> stateMap = new HashMap<>();
@@ -37,15 +42,15 @@ public final class IntState implements State {
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object other) {
+    if (this == other) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (other == null || getClass() != other.getClass()) {
       return false;
     }
 
-    IntState intState = (IntState) o;
+    IntState intState = (IntState) other;
 
     return value == intState.value;
   }
@@ -56,10 +61,10 @@ public final class IntState implements State {
   }
 
   @Override
-  public int compareTo(State o) {
-    checkArgument(o != null, "Cannot compare to null");
-    checkArgument(o instanceof IntState, "Cannot compare with type %s", o.getClass().toString());
+  public int compareTo(State other) {
+    checkArgument(other != null, "Cannot compare to null");
+    checkArgument(other instanceof IntState, "Cannot compare with type %s", other.getClass().toString());
 
-    return value - ((IntState) o).value;
+    return value - ((IntState) other).value;
   }
 }

@@ -1,6 +1,6 @@
 package com.mistraltech.turingmachine.model.factory;
 
-import com.mistraltech.turingmachine.model.ActionImpl;
+import com.mistraltech.turingmachine.model.Action;
 import com.mistraltech.turingmachine.model.CharSymbol;
 import com.mistraltech.turingmachine.model.IntState;
 import com.mistraltech.turingmachine.model.Move;
@@ -12,7 +12,7 @@ public class IntStateCharSymbolActionFactory {
   public IntStateCharSymbolActionFactory() {
   }
 
-  public ActionImpl createAction(int stateCode, char symbolCode, int newStateCode, char newSymbolCode, char moveCode) {
+  public Action createAction(int stateCode, char symbolCode, int newStateCode, char newSymbolCode, char moveCode) {
     State state = IntState.getState(stateCode);
     Symbol symbol = CharSymbol.getSymbol(symbolCode);
     State newState = IntState.getState(newStateCode);
@@ -21,6 +21,6 @@ public class IntStateCharSymbolActionFactory {
     Move move = Move.findByCode(moveCode)
         .orElseThrow(() -> new IllegalArgumentException(String.format("moveCode '%c' not recognised", moveCode)));
 
-    return new ActionImpl(state, symbol, newState, newSymbol, move);
+    return new Action(state, symbol, newState, newSymbol, move);
   }
 }

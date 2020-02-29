@@ -23,7 +23,7 @@ class TuringMachineTest {
   private final Set<State> emptyStates = Set.of();
   private final Set<CharSymbol> symbols = Set.of(SYMBOL_BLANK, SYMBOL_1, SYMBOL_0, SYMBOL_A);
   private final Set<CharSymbol> inputSymbols = Set.of(SYMBOL_1, SYMBOL_0);
-  private final Action action1 = new ActionImpl(STATE_1, SYMBOL_0, STATE_2, SYMBOL_1, Move.RIGHT);
+  private final Action action1 = new Action(STATE_1, SYMBOL_0, STATE_2, SYMBOL_1, Move.RIGHT);
   private final Program program = new ProgramImpl(Set.of(action1));
 
   @Test
@@ -178,9 +178,9 @@ class TuringMachineTest {
 
   @Test
   void findAction_WithValidPair_ReturnsAction() {
-    Action action1 = new ActionImpl(STATE_1, SYMBOL_0, STATE_1, SYMBOL_0, Move.NONE);
-    Action action2 = new ActionImpl(STATE_1, SYMBOL_1, STATE_1, SYMBOL_0, Move.NONE);
-    Action action3 = new ActionImpl(STATE_2, SYMBOL_1, STATE_1, SYMBOL_0, Move.NONE);
+    Action action1 = new Action(STATE_1, SYMBOL_0, STATE_1, SYMBOL_0, Move.NONE);
+    Action action2 = new Action(STATE_1, SYMBOL_1, STATE_1, SYMBOL_0, Move.NONE);
+    Action action3 = new Action(STATE_2, SYMBOL_1, STATE_1, SYMBOL_0, Move.NONE);
 
     Program p = new ProgramImpl(Set.of(action1, action2, action3));
 
@@ -194,8 +194,8 @@ class TuringMachineTest {
 
   @Test
   void findAction_WithUnknownPair_ReturnsEmpty() {
-    Action action1 = new ActionImpl(STATE_1, SYMBOL_0, STATE_1, SYMBOL_0, Move.NONE);
-    Action action3 = new ActionImpl(STATE_2, SYMBOL_1, STATE_1, SYMBOL_0, Move.NONE);
+    Action action1 = new Action(STATE_1, SYMBOL_0, STATE_1, SYMBOL_0, Move.NONE);
+    Action action3 = new Action(STATE_2, SYMBOL_1, STATE_1, SYMBOL_0, Move.NONE);
 
     Program p = new ProgramImpl(Set.of(action1, action3));
 

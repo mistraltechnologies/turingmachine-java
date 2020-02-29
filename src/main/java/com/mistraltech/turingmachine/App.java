@@ -39,7 +39,7 @@ public class App {
    * Run the application.
    */
   public void run() {
-    Tape inputTape = TapeImpl.create(CharSymbol.BLANK, CharSymbolUtils.listFromString(input));
+    Tape inputTape = TapeImpl.create(CharSymbol.BLANK, CharSymbolUtils.stringToSymbolList(input));
 
     System.out.println("Input:");
     System.out.println(input);
@@ -50,6 +50,6 @@ public class App {
     Output output = new TuringMachineSimulatorImpl(tm).compute(inputTape);
 
     System.out.println("Output:");
-    System.out.println(CharSymbolUtils.stringFromList(output.getOutputString()));
+    System.out.println(CharSymbolUtils.symbolListToString(output.getOutputString()));
   }
 }

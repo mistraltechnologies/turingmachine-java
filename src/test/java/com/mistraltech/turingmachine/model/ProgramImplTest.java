@@ -78,7 +78,7 @@ class ProgramImplTest {
 
   @Test
   void equals_WithAnInstanceWithADifferentInstanceOfSameAction_ReturnsTrue() {
-    Action action2Copy = new ActionImpl(ACTION_2.getState(), ACTION_2.getSymbol(),
+    Action action2Copy = new Action(ACTION_2.getState(), ACTION_2.getSymbol(),
         ACTION_2.getNewState(), ACTION_2.getNewSymbol(), ACTION_2.getMove());
 
     ProgramImpl program1 = new ProgramImpl(Set.of(ACTION_1, ACTION_2));
@@ -105,7 +105,7 @@ class ProgramImplTest {
 
   @Test
   void equals_WithAnInstanceWithADifferentAction_ReturnsFalse() {
-    Action action3 = new ActionImpl(ACTION_2.getState(), ACTION_2.getSymbol(),
+    Action action3 = new Action(ACTION_2.getState(), ACTION_2.getSymbol(),
         ACTION_2.getNewState(), ACTION_2.getNewSymbol(), Move.NONE);
 
     ProgramImpl program1 = new ProgramImpl(Set.of(ACTION_1, ACTION_2));
@@ -124,7 +124,7 @@ class ProgramImplTest {
 
   @Test
   void hashCode_ForEquivalentInstances_ReturnsSameResult() {
-    Action action2Copy = new ActionImpl(ACTION_2.getState(), ACTION_2.getSymbol(),
+    Action action2Copy = new Action(ACTION_2.getState(), ACTION_2.getSymbol(),
         ACTION_2.getNewState(), ACTION_2.getNewSymbol(), ACTION_2.getMove());
 
     ProgramImpl program1 = new ProgramImpl(Set.of(ACTION_1, ACTION_2));

@@ -22,18 +22,18 @@ class AppIT {
     Output output = tm.compute(input);
 
     assertThat(output.succeeded()).isTrue();
-    assertThat(CharSymbolUtils.stringFromList(output.getOutputString())).isEqualTo("0");
+    assertThat(CharSymbolUtils.symbolListToString(output.getOutputString())).isEqualTo("0");
   }
 
   @Test
   public void compute_WithConsZeroProgramAndNonEmptyInput_HaltsAndSucceedsWithExpectedOutput() {
     TuringMachineSimulatorImpl tm = new TuringMachineSimulatorImpl(CONS0);
 
-    Tape input = TapeImpl.create(CharSymbol.BLANK, CharSymbolUtils.listFromString("110"));
+    Tape input = TapeImpl.create(CharSymbol.BLANK, CharSymbolUtils.stringToSymbolList("110"));
 
     Output output = tm.compute(input);
 
     assertThat(output.succeeded()).isTrue();
-    assertThat(CharSymbolUtils.stringFromList(output.getOutputString())).isEqualTo("0110");
+    assertThat(CharSymbolUtils.symbolListToString(output.getOutputString())).isEqualTo("0110");
   }
 }

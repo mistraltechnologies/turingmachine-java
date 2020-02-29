@@ -46,7 +46,7 @@ public abstract class Output {
 
     @Override
     public String toString() {
-      return "Output: succeeded [" + CharSymbolUtils.stringFromList(getOutputString()) + "]";
+      return "Output: succeeded [" + CharSymbolUtils.symbolListToString(getOutputString()) + "]";
     }
   }
 
