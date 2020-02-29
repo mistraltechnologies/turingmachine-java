@@ -1,14 +1,10 @@
 package com.mistraltech.turingmachine;
 
 import com.mistraltech.turingmachine.model.CharSymbol;
-import com.mistraltech.turingmachine.model.Symbol;
 import com.mistraltech.turingmachine.model.Tape;
 import com.mistraltech.turingmachine.model.TapeImpl;
 import com.mistraltech.turingmachine.model.TuringMachine;
 import com.mistraltech.utils.CharSymbolUtils;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-import java.util.List;
 
 public class App {
 

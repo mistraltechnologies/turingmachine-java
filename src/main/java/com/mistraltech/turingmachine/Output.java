@@ -2,13 +2,8 @@ package com.mistraltech.turingmachine;
 
 import com.mistraltech.turingmachine.model.Configuration;
 import com.mistraltech.turingmachine.model.Symbol;
-import com.mistraltech.turingmachine.model.Tape;
 import com.mistraltech.utils.CharSymbolUtils;
-import com.mistraltech.utils.PersistentStack;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.StringJoiner;
-import org.pcollections.PStack;
 
 public abstract class Output {
 

@@ -4,8 +4,6 @@ import com.mistraltech.utils.CharSymbolUtils;
 import com.mistraltech.utils.PStackUtils;
 import com.mistraltech.utils.Preconditions;
 import java.util.List;
-import java.util.Set;
-import java.util.StringJoiner;
 import org.pcollections.ConsPStack;
 import org.pcollections.PStack;
 
@@ -51,7 +49,8 @@ public class TapeImpl implements Tape {
 
   public TapeImpl apply(Symbol newSymbol, Move move) {
     if (move == Move.LEFT) {
-      return new TapeImpl(blankSymbol, tail(leftString), rightString.with(0, newSymbol).plus(head(leftString)), index - 1);
+      return new TapeImpl(blankSymbol, tail(leftString), rightString.with(0, newSymbol).plus(head(leftString)),
+          index - 1);
     }
 
     if (move == Move.RIGHT) {

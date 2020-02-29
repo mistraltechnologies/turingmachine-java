@@ -5,7 +5,6 @@ import static com.mistraltech.utils.Preconditions.checkArgument;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class TuringMachine {
 

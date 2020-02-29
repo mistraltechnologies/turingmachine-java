@@ -122,7 +122,7 @@ public class MachineLoader {
 
     Matcher actionMatcher = ACTION_PATTERN.matcher(trimmed);
 
-    if (! actionMatcher.matches()) {
+    if (!actionMatcher.matches()) {
       throw new ProgramLoadException("Invalid line: " + s);
     }
 
