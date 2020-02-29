@@ -40,8 +40,6 @@ public final class TuringMachineBuilder {
   }
 
   public TuringMachineBuilder withInitialState(State initialState) {
-    Preconditions.checkArgument(initialState != null, "initialState cannot be null");
-
     this.initialState = initialState;
     return this;
   }
