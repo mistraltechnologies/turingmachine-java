@@ -1,40 +1,39 @@
 package com.mistraltech.turingmachine.model;
 
 import com.mistraltech.utils.CharSymbolUtils;
-import com.mistraltech.utils.PStackUtils;
+import com.mistraltech.utils.PersistentStack;
+import com.mistraltech.utils.PersistentStackImpl;
 import com.mistraltech.utils.Preconditions;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import org.pcollections.ConsPStack;
-import org.pcollections.PStack;
+import java.util.Optional;
 
 public class TapeImpl implements Tape {
 
-  private final PStackUtils<Symbol> utils;
   private final Symbol blankSymbol;
-  private final PStack<Symbol> leftString;
-  private final PStack<Symbol> rightString;
+  private final PersistentStack<Symbol> leftString;
+  private final PersistentStack<Symbol> rightString;
   private final int index;
 
   private TapeImpl(Symbol blankSymbol) {
-    this.utils = new PStackUtils<>(blankSymbol);
     this.blankSymbol = blankSymbol;
-    this.leftString = ConsPStack.empty();
-    this.rightString = ConsPStack.singleton(blankSymbol);
+    this.leftString = PersistentStackImpl.empty();
+    this.rightString = PersistentStackImpl.singleton(blankSymbol);
     this.index = 1;
   }
 
   private TapeImpl(Symbol blankSymbol, List<Symbol> initial) {
-    this.utils = new PStackUtils<>(blankSymbol);
     this.blankSymbol = blankSymbol;
-    this.leftString = ConsPStack.empty();
-    this.rightString = ConsPStack.from(initial);
+    this.leftString = PersistentStackImpl.empty();
+    this.rightString = PersistentStackImpl.from(initial);
     this.index = 1;
   }
 
-  private TapeImpl(Symbol blankSymbol, PStack<Symbol> leftString, PStack<Symbol> rightString, int index) {
-    this.utils = new PStackUtils<>(blankSymbol);
+  private TapeImpl(Symbol blankSymbol, PersistentStack<Symbol> leftString, PersistentStack<Symbol> rightString, int index) {
     this.leftString = leftString;
-    this.rightString = utils.pad(rightString, 1);
+    this.rightString = rightString.pad(blankSymbol, 1);
     this.blankSymbol = blankSymbol;
     this.index = index;
   }
@@ -49,23 +48,23 @@ public class TapeImpl implements Tape {
 
   public TapeImpl apply(Symbol newSymbol, Move move) {
     if (move == Move.LEFT) {
-      return new TapeImpl(blankSymbol, tail(leftString), rightString.with(0, newSymbol).plus(head(leftString)),
+      return new TapeImpl(blankSymbol, tail(leftString), rightString.pop().push(newSymbol).push(head(leftString)),
           index - 1);
     }
 
     if (move == Move.RIGHT) {
-      return new TapeImpl(blankSymbol, leftString.plus(newSymbol), tail(rightString), index + 1);
+      return new TapeImpl(blankSymbol, leftString.push(newSymbol), tail(rightString), index + 1);
     }
 
-    return new TapeImpl(blankSymbol, leftString, rightString.with(0, newSymbol), index);
+    return new TapeImpl(blankSymbol, leftString, rightString.pop().push(newSymbol), index);
   }
 
-  private Symbol head(PStack<Symbol> string) {
-    return string.isEmpty() ? blankSymbol : string.get(0);
+  private Symbol head(PersistentStack<Symbol> string) {
+    return string.isEmpty() ? blankSymbol : string.read();
   }
 
-  private PStack<Symbol> tail(PStack<Symbol> string) {
-    return string.isEmpty() ? string : string.subList(1);
+  private PersistentStack<Symbol> tail(PersistentStack<Symbol> stack) {
+    return stack.isEmpty() ? stack : stack.pop();
   }
 
   public List<Symbol> getOutputString() {
@@ -74,7 +73,7 @@ public class TapeImpl implements Tape {
 
   @Override
   public Symbol getCurrentSymbol() {
-    return rightString.get(0);
+    return rightString.read();
   }
 
   private List<Symbol> calculateOutputString() {
@@ -82,29 +81,44 @@ public class TapeImpl implements Tape {
 
     if (index < 1) {
       // Discard (1 - index) elements from rightString then take valid output from rightString
-      outputString = front(rightString.subList(-index + 1));
+      outputString = front(rightString.pop(-index + 1));
     } else {
       // take valid output from first (index - 1) elements of leftString plus currentSymbol plus rightString
-      outputString = front(rightString.plusAll(leftString.subList(0, index - 1)));
+      outputString = front(rightString.pushAll(leftString.truncate(index - 1)));
     }
 
     return outputString;
   }
 
-  private List<Symbol> front(PStack<Symbol> symbols) {
-    // count how many symbols we want to take
-    int index = 0;
+  private List<Symbol> front(PersistentStack<Symbol> symbols) {
+    List<Symbol> frontList = new ArrayList<>();
 
-    while (index < symbols.size() && symbols.get(index) != blankSymbol) {
-      index++;
+    Optional<Symbol> s = symbols.peek();
+    while(s.isPresent() && s.get() != blankSymbol) {
+      frontList.add(s.get());
+      symbols = symbols.pop();
+      s = symbols.peek();
     }
 
-    return symbols.subList(0, index);
+    return frontList;
   }
 
-  private PStack<Symbol> infiniteSubList(PStack<Symbol> list, int from, int to) {
-    PStack<Symbol> paddedList = (to > list.size()) ? utils.pad(list, to) : list;
-    return paddedList.subList(from, to);
+  private List<Symbol> asList(PersistentStack<Symbol> symbols) {
+    List<Symbol> list = new ArrayList<>();
+
+    Optional<Symbol> s = symbols.peek();
+    while(s.isPresent()) {
+      list.add(s.get());
+      symbols = symbols.pop();
+      s = symbols.peek();
+    }
+
+    return list;
+  }
+
+  private PersistentStack<Symbol> infiniteSubList(PersistentStack<Symbol> list, int from, int to) {
+    PersistentStack<Symbol> paddedList = (to > list.size()) ? list.pad(blankSymbol, to) : list;
+    return paddedList.pop(from).truncate(to - from);
   }
 
   public List<Symbol> getString(int from, int to) {
@@ -113,14 +127,14 @@ public class TapeImpl implements Tape {
     int offsetFrom = from - index;
     int offsetTo = to - index;
 
-    PStack<Symbol> fromLeft = infiniteSubList(leftString, Math.max(-offsetTo, 0), Math.max(-offsetFrom, 0));
-    PStack<Symbol> fromRight = infiniteSubList(rightString, Math.max(offsetFrom, 0), Math.max(offsetTo, 0));
+    PersistentStack<Symbol> fromLeft = infiniteSubList(leftString, Math.max(-offsetTo, 0), Math.max(-offsetFrom, 0));
+    PersistentStack<Symbol> fromRight = infiniteSubList(rightString, Math.max(offsetFrom, 0), Math.max(offsetTo, 0));
 
-    return fromRight.plusAll(fromLeft);
+    return asList(fromRight.pushAll(fromLeft));
   }
 
   @Override
   public String toString() {
-    return "Tape [" + CharSymbolUtils.symbolListToString(rightString.plusAll(leftString)) + "]";
+    return "Tape [" + CharSymbolUtils.symbolListToString(asList(rightString.pushAll(leftString))) + "]";
   }
 }

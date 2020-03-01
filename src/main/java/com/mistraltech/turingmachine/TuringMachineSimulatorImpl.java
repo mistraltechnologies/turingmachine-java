@@ -7,15 +7,13 @@ import com.mistraltech.turingmachine.model.State;
 import com.mistraltech.turingmachine.model.Symbol;
 import com.mistraltech.turingmachine.model.Tape;
 import com.mistraltech.turingmachine.model.TuringMachine;
+import com.mistraltech.utils.PersistentStack;
 import com.mistraltech.utils.PersistentStackImpl;
 import com.mistraltech.utils.Preconditions;
 import java.util.Optional;
-import org.pcollections.ConsPStack;
-import org.pcollections.PStack;
 
 public class TuringMachineSimulatorImpl implements TuringMachineSimulator {
 
-  private static final PersistentStackImpl<Symbol> EMPTY_STRING = new PersistentStackImpl<>();
   private static final int DEFAULT_MAX_ITERATIONS = 1000;
 
   private final TuringMachine turingMachine;
@@ -33,10 +31,10 @@ public class TuringMachineSimulatorImpl implements TuringMachineSimulator {
   public Output compute(Tape input, int maxIterations) {
     Preconditions.checkArgument(input != null, "input must not be null");
 
-    PStack<Configuration> configurations = ConsPStack.singleton(getInitialConfiguration(input));
+    PersistentStack<Configuration> configurations = PersistentStackImpl.singleton(getInitialConfiguration(input));
 
     while (configurations.size() <= maxIterations) {
-      Configuration currentConfiguration = configurations.get(0);
+      Configuration currentConfiguration = configurations.read();
       State currentState = currentConfiguration.getState();
 
       if (turingMachine.isFinalState(currentState)) {
@@ -52,7 +50,7 @@ public class TuringMachineSimulatorImpl implements TuringMachineSimulator {
       }
 
       Configuration newConfiguration = getNewConfiguration(maybeAction.get(), currentTape);
-      configurations = configurations.plus(newConfiguration);
+      configurations = configurations.push(newConfiguration);
     }
 
     throw new DidNotHaltException(maxIterations);

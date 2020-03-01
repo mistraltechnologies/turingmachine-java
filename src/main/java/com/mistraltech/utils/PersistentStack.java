@@ -8,9 +8,19 @@ public interface PersistentStack<T> {
 
   PersistentStack<T> pop();
 
+  PersistentStack<T> pop(int n);
+
   Optional<T> peek();
 
   T read();
 
   boolean isEmpty();
+
+  int size();
+
+  PersistentStack<T> pad(T t, int to);
+
+  PersistentStack<T> truncate(int to);
+
+  PersistentStack<T> pushAll(PersistentStack<T> other);
 }
