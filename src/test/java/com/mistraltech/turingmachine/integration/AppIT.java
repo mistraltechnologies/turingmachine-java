@@ -3,6 +3,8 @@ package com.mistraltech.turingmachine.integration;
 import static com.mistraltech.turingmachine.MachineLibrary.CONS0;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.mistraltech.turingmachine.MachineLibrary;
+import com.mistraltech.turingmachine.MachineLibrary.MachineType;
 import com.mistraltech.turingmachine.Output;
 import com.mistraltech.turingmachine.TuringMachineSimulatorImpl;
 import com.mistraltech.turingmachine.model.CharSymbol;
@@ -27,7 +29,7 @@ class AppIT {
 
   @Test
   public void compute_WithConsZeroProgramAndNonEmptyInput_HaltsAndSucceedsWithExpectedOutput() {
-    TuringMachineSimulatorImpl tm = new TuringMachineSimulatorImpl(CONS0);
+    TuringMachineSimulatorImpl tm = new TuringMachineSimulatorImpl(MachineLibrary.getMachine(MachineType.CONS0));
 
     Tape input = TapeImpl.create(CharSymbol.BLANK, CharSymbolUtils.stringToSymbolList("110"));
 

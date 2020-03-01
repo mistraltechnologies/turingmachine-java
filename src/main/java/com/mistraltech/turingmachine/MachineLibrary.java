@@ -9,15 +9,31 @@ import com.mistraltech.turingmachine.model.builder.ProgramBuilder;
 import com.mistraltech.turingmachine.model.builder.TuringMachineBuilder;
 import com.mistraltech.turingmachine.model.factory.IntStateCharSymbolActionFactory;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class MachineLibrary {
 
   private static final IntStateCharSymbolActionFactory ACTION_FACTORY = new IntStateCharSymbolActionFactory();
 
-  public static final TuringMachine CONS0 = createCons0TuringMachine();
+  private static final HashMap<MachineType, TuringMachine> machineCache = new HashMap<>();
+
+  public enum MachineType {
+    CONS0(MachineLibrary::createCons0TuringMachine);
+
+    private final Supplier<TuringMachine> supplier;
+
+    MachineType(Supplier<TuringMachine> supplier) {
+      this.supplier = supplier;
+    }
+  }
+
+  public static TuringMachine getMachine(MachineType machine) {
+    return machineCache.computeIfAbsent(machine, m -> machine.supplier.get());
+  }
 
   private static TuringMachine createCons0TuringMachine() {
     List<IntState> states = IntState.createClosedRangeFromZeroTo(3);
