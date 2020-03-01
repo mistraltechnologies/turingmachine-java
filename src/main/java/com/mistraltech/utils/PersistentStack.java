@@ -22,5 +22,5 @@ public interface PersistentStack<T> {
 
   PersistentStack<T> truncate(int to);
 
-  PersistentStack<T> pushAll(PersistentStack<T> other);
+  PersistentStack<T> pushAll(PersistentStack<? extends T> other);
 }

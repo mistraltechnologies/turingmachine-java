@@ -158,7 +158,7 @@ public final class PersistentStackImpl<T> implements PersistentStack<T> {
   }
 
   @Override
-  public PersistentStack<T> pushAll(PersistentStack<T> other) {
+  public PersistentStack<T> pushAll(PersistentStack<? extends T> other) {
     PersistentStack<T> result = this;
 
     while (!other.isEmpty()) {
