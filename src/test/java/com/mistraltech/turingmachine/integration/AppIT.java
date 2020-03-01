@@ -1,6 +1,5 @@
 package com.mistraltech.turingmachine.integration;
 
-import static com.mistraltech.turingmachine.MachineLibrary.CONS0;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.mistraltech.turingmachine.MachineLibrary;
@@ -17,7 +16,7 @@ class AppIT {
 
   @Test
   public void compute_WithConsZeroProgramAndEmptyInput_HaltsAndSucceedsWithExpectedOutput() {
-    TuringMachineSimulatorImpl tm = new TuringMachineSimulatorImpl(CONS0);
+    TuringMachineSimulatorImpl tm = getSimulator(MachineType.CONS0);
 
     Tape input = TapeImpl.create(CharSymbol.BLANK);
 
@@ -29,7 +28,7 @@ class AppIT {
 
   @Test
   public void compute_WithConsZeroProgramAndNonEmptyInput_HaltsAndSucceedsWithExpectedOutput() {
-    TuringMachineSimulatorImpl tm = new TuringMachineSimulatorImpl(MachineLibrary.getMachine(MachineType.CONS0));
+    TuringMachineSimulatorImpl tm = getSimulator(MachineType.CONS0);
 
     Tape input = TapeImpl.create(CharSymbol.BLANK, CharSymbolUtils.stringToSymbolList("110"));
 
@@ -37,5 +36,9 @@ class AppIT {
 
     assertThat(output.succeeded()).isTrue();
     assertThat(CharSymbolUtils.symbolListToString(output.getOutputString())).isEqualTo("0110");
+  }
+
+  private TuringMachineSimulatorImpl getSimulator(MachineType machineType) {
+    return new TuringMachineSimulatorImpl(MachineLibrary.getMachine(machineType));
   }
 }
