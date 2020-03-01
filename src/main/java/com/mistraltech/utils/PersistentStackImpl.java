@@ -51,8 +51,8 @@ public final class PersistentStackImpl<T> implements PersistentStack<T> {
   }
 
   /**
-   * Return a new persistent stack initialised with a list of elements.
-   * The stack is initialised such that the elements will be popped in the order given in initial.
+   * Return a new persistent stack initialised with a list of elements. The stack is initialised such that the elements
+   * will be popped in the order given in initial.
    *
    * @param initial the list of elements the stack will contain
    */
@@ -61,7 +61,7 @@ public final class PersistentStackImpl<T> implements PersistentStack<T> {
 
     PersistentStackImpl<T> stack = empty();
 
-    for(int i = initial.size() - 1; i >= 0; i--) {
+    for (int i = initial.size() - 1; i >= 0; i--) {
       stack = stack.push(initial.get(i));
     }
 

@@ -1,8 +1,8 @@
 package com.mistraltech.turingmachine.model;
 
 /**
- * Represents a machine configuration. This is a combination of the current machine state and
- * the content and current head location of the tape.
+ * Represents a machine configuration. This is a combination of the current machine state and the content and current
+ * head location of the tape.
  */
 public class Configuration {
 

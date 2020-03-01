@@ -10,9 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * A State implementation with states represented by Integers.
- * IntState cannot be constructed directly. Use one of the static factory methods to construct and retrieve
- * IntState instances.
+ * A State implementation with states represented by Integers. IntState cannot be constructed directly. Use one of the
+ * static factory methods to construct and retrieve IntState instances.
  */
 public final class IntState implements State {
 

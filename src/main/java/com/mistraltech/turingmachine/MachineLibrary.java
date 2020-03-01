@@ -21,16 +21,6 @@ public class MachineLibrary {
 
   private static final HashMap<MachineType, TuringMachine> machineCache = new HashMap<>();
 
-  public enum MachineType {
-    CONS0(MachineLibrary::createCons0TuringMachine);
-
-    private final Supplier<TuringMachine> supplier;
-
-    MachineType(Supplier<TuringMachine> supplier) {
-      this.supplier = supplier;
-    }
-  }
-
   public static TuringMachine getMachine(MachineType machine) {
     return machineCache.computeIfAbsent(machine, m -> machine.supplier.get());
   }
@@ -71,6 +61,16 @@ public class MachineLibrary {
     Set<CharSymbol> newSet = new HashSet<>(set1);
     newSet.addAll(set2);
     return Collections.unmodifiableSet(newSet);
+  }
+
+  public enum MachineType {
+    CONS0(MachineLibrary::createCons0TuringMachine);
+
+    private final Supplier<TuringMachine> supplier;
+
+    MachineType(Supplier<TuringMachine> supplier) {
+      this.supplier = supplier;
+    }
   }
 
 }

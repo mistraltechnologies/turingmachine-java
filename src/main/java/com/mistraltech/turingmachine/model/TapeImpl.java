@@ -4,9 +4,7 @@ import com.mistraltech.utils.CharSymbolUtils;
 import com.mistraltech.utils.PersistentStack;
 import com.mistraltech.utils.PersistentStackImpl;
 import com.mistraltech.utils.Preconditions;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +29,8 @@ public class TapeImpl implements Tape {
     this.index = 1;
   }
 
-  private TapeImpl(Symbol blankSymbol, PersistentStack<Symbol> leftString, PersistentStack<Symbol> rightString, int index) {
+  private TapeImpl(Symbol blankSymbol, PersistentStack<Symbol> leftString, PersistentStack<Symbol> rightString,
+      int index) {
     this.leftString = leftString;
     this.rightString = rightString.pad(blankSymbol, 1);
     this.blankSymbol = blankSymbol;
@@ -94,7 +93,7 @@ public class TapeImpl implements Tape {
     List<Symbol> frontList = new ArrayList<>();
 
     Optional<Symbol> s = symbols.peek();
-    while(s.isPresent() && s.get() != blankSymbol) {
+    while (s.isPresent() && s.get() != blankSymbol) {
       frontList.add(s.get());
       symbols = symbols.pop();
       s = symbols.peek();
@@ -107,7 +106,7 @@ public class TapeImpl implements Tape {
     List<Symbol> list = new ArrayList<>();
 
     Optional<Symbol> s = symbols.peek();
-    while(s.isPresent()) {
+    while (s.isPresent()) {
       list.add(s.get());
       symbols = symbols.pop();
       s = symbols.peek();

@@ -6,8 +6,8 @@ import java.util.StringJoiner;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
- * A 5-tuple describing an action condition (the current state and symbol at the current tape location)
- * and the new machine state (new state, symbol to write at the current tape location and tape head movement).
+ * A 5-tuple describing an action condition (the current state and symbol at the current tape location) and the new
+ * machine state (new state, symbol to write at the current tape location and tape head movement).
  */
 public final class Action implements Comparable<Action> {
 
