@@ -7,6 +7,9 @@ import com.mistraltech.turingmachine.model.Move;
 import com.mistraltech.turingmachine.model.State;
 import com.mistraltech.turingmachine.model.Symbol;
 
+/**
+ * Factory to construct actions based on state type IntState and symbol type CharSymbol.
+ */
 public class IntStateCharSymbolActionFactory {
 
   public IntStateCharSymbolActionFactory() {
